@@ -1,9 +1,9 @@
 import numpy as np
-
+from scipy.spatial.distance import euclidean
 
 class CVRP:
     """
-    bla bla bal
+    blaa bla bal
     """
     def __init__(self, path: str):
         with open(path, 'r') as inst:
@@ -38,6 +38,17 @@ class CVRP:
         #depot
 
         self.depot = int(line[self.dimmension *2 +9])
+
+        #dist
+
+        self.dist = np.zeros([self.dimmension,self.dimmension])
+
+        for i in range(self.dimmension):
+            for j in range(i):
+                d = euclidean(self.coord[i], self.coord[j])
+                self.dist[i][j] = d
+                self.dist[j][i] = d
+
 
 if __name__ == '__main__':
     print('Hello world')

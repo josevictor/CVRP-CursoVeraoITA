@@ -1,20 +1,20 @@
-# Curso de Verão - Metaheurística para Ciência de Dados - ITA/UNIFESP.
+## Curso de Verão - Metaheurística para Ciência de Dados - ITA/UNIFESP.
 
-## CVRP - Utilizando as metaheurística BKGA e GRASP.
+### CVRP - Utilizando as metaheurística BKGA e GRASP.
 
-# Requirements
+### Requirements
 
 - Python 3
 - R >= 3.3.0
 - IRACE (R package) = 2.4
 
-## Python Packages
+### Python Packages
 
 - argparse
 - logging
 - sys
 
-## Instrutions
+### Instrutions
 
 - Move to ProjectFolder/irace/
 - On windows, run the command:

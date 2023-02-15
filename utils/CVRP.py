@@ -25,7 +25,7 @@ class CVRP:
         self.coord = []
         for i in range(7, self.dimmension + 7):
             c = line[i].split(' ')
-            self.coord.append(np.array([int(c[1]), int(c[2])]))
+            self.coord.append(np.array([float(c[1]), float(c[2])]))
         self.coord = np.array(self.coord)
 
         #Demand

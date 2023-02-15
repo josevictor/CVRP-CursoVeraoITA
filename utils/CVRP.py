@@ -1,11 +1,16 @@
 import numpy as np
 from scipy.spatial.distance import euclidean
+from math import floor
 
 class CVRP:
     """
-    blaa bla bal
+    
     """
     def __init__(self, path: str):
+        """
+        path: String file location
+
+        """
         with open(path, 'r') as inst:
             line = inst.read()
 
@@ -33,7 +38,9 @@ class CVRP:
         self.demand = []
         for i in range(self.dimmension + 8, self.dimmension * 2 +8):
             c = line[i].split(' ')
-            self.demand.append(int(c[1]))
+            self.demand.append(float(c[1]))
+
+        self.demand = np.array(self.demand)
 
         #depot
 
@@ -48,6 +55,47 @@ class CVRP:
                 d = euclidean(self.coord[i], self.coord[j])
                 self.dist[i][j] = d
                 self.dist[j][i] = d
+
+    def get_of(self, res_vec:list):
+        """
+        res_vec: list size dimmension - 1
+        return of, routes
+        """
+        
+        #Assert the size of the res_vec
+        assert len(res_vec) == self.dimmension-1
+        
+        #generate routes
+        routes = self._gen_routes(res_vec)
+        
+        #Calculate the cost of the routes
+        of = self._get_of(routes)
+
+        return of, routes
+
+
+    def _gen_routes(self,res_vec:list) -> list:
+
+        routes = []
+        route = []
+        for client in res_vec:
+            if np.sum(np.append(self.demand[[route]],self.demand[client])) <= self.capacity:
+                route.append(client)
+            else:
+                routes.append(route)
+                route = [client]
+        routes.append(route)
+        return routes
+
+    def _get_of(self, routes:list) -> float:
+
+        of = 0
+        for route in routes:
+            of += floor(self.dist[self.depot - 1][route[0]]+0.5) + floor(self.dist[route[-1]][self.depot - 1]+0.5) + np.sum([floor(self.dist[route[i]][route[i + 1]]+0.5) for i in range(len(route) - 1)])
+
+        return of
+
+
 
 
 if __name__ == '__main__':

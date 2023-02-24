@@ -29,7 +29,7 @@ class CVRP:
 
         self.coord = []
         for i in range(7, self.dimmension + 7):
-            c = line[i].split(' ')
+            c = line[i].strip(' ').split()
             self.coord.append(np.array([float(c[1]), float(c[2])]))
         self.coord = np.array(self.coord)
 
@@ -37,7 +37,7 @@ class CVRP:
 
         self.demand = []
         for i in range(self.dimmension + 8, self.dimmension * 2 +8):
-            c = line[i].split(' ')
+            c = line[i].strip(' ').split()
             self.demand.append(float(c[1]))
 
         self.demand = np.array(self.demand)
@@ -52,7 +52,7 @@ class CVRP:
 
         for i in range(self.dimmension):
             for j in range(i):
-                d = euclidean(self.coord[i], self.coord[j])
+                d = floor(euclidean(self.coord[i], self.coord[j])+0.5)
                 self.dist[i][j] = d
                 self.dist[j][i] = d
 
@@ -91,7 +91,7 @@ class CVRP:
 
         of = 0
         for route in routes:
-            of += floor(self.dist[self.depot - 1][route[0]]+0.5) + floor(self.dist[route[-1]][self.depot - 1]+0.5) + np.sum([floor(self.dist[route[i]][route[i + 1]]+0.5) for i in range(len(route) - 1)])
+            of += self.dist[self.depot - 1][route[0]] + self.dist[route[-1]][self.depot - 1] + np.sum([self.dist[route[i]][route[i + 1]] for i in range(len(route) - 1)])
 
         return of
 
